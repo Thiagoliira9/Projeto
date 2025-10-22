@@ -1,0 +1,123 @@
+Estrutura de Pastas
+Código
+pit-dispensacao/
+├── server.js
+├── db/
+│   └── database.js
+├── routes/
+│   └── requisicoes.js
+├── models/
+│   └── schema.sql
+├── public/
+│   └── index.html
+├── package.json
+Inicializar o Projeto
+bash
+npm init -y
+npm install express sqlite3 cors body-parser
+server.js
+js
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const requisicoesRoutes = require('./routes/requisicoes');
+
+const app = express();
+const PORT = 3000;
+
+app.use(cors());
+app.use(bodyParser.json());
+app.use(express.static('public'));
+
+app.use('/api/requisicoes', requisicoesRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
+});
+
+db/database.js
+js
+const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
+
+const dbPath = path.resolve(__dirname, 'dispensacao.db');
+const db = new sqlite3.Database(dbPath);
+
+module.exports = db;models/schema.sql
+sql
+CREATE TABLE IF NOT EXISTS requisicoes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  data TEXT,
+  sala TEXT,
+  medico TEXT
+);
+
+CREATE TABLE IF NOT EXISTS itens (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  requisicao_id INTEGER,
+  nome TEXT,
+  tipo TEXT,
+  qt_req INTEGER,
+  qt_dev INTEGER,
+  FOREIGN KEY (requisicao_id) REFERENCES requisicoes(id)
+
+Para rodar esse script, você pode usar um utilitário como sqlite3 no terminal:
+sqlite3 db/dispensacao.db < models/schema.sql
+
+routes/requisicoes.js
+const express = require('express');
+const db = require('../db/database');
+const router = express.Router();
+
+// Criar nova requisição
+router.post('/', (req, res) => {
+  const { data, sala, medico, itens } = req.body;
+
+  db.run(
+    'INSERT INTO requisicoes (data, sala, medico) VALUES (?, ?, ?)',
+    [data, sala, medico],
+    function (err) {
+      if (err) return res.status(500).json({ error: err.message });
+
+      const requisicaoId = this.lastID;
+
+      const stmt = db.prepare(
+        'INSERT INTO itens (requisicao_id, nome, tipo, qt_req, qt_dev) VALUES (?, ?, ?, ?, ?)'
+      );
+
+      itens.forEach(item => {
+        stmt.run(requisicaoId, item.nome, item.tipo, item.qt_req, item.qt_dev);
+      });
+
+      stmt.finalize();
+      res.status(201).json({ id: requisicaoId });
+    }
+  );
+});
+
+// Listar todas as requisições
+router.get('/', (req, res) => {
+  db.all('SELECT * FROM requisicoes', [], (err, rows) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(rows);
+  });
+});
+
+module.exports = router;
+
+Conectar com o Front-End
+No seu index.html, envie os dados com fetch:
+
+fetch('/api/requisicoes', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    data: '2025-10-22',
+    sala: 'CC1',
+    medico: 'Dr Ronaldo',
+    itens: [
+      { nome: 'Agulha Raqui 27G', tipo: 'Material', qt_req: 2, qt_dev: 0 },
+      { nome: 'Adrenalina 1mL', tipo: 'Medicamento', qt_req: 1, qt_dev: 0 }
+    ]
+  })
+});
