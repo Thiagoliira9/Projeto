@@ -1,0 +1,43 @@
+Banco de Dados
+Modelo Conceitual
+Entidades principais:
+    • Usuario (id, nome, função)
+    • Item (id, nome, tipo, referência)
+    • Requisicao (id, data, sala, usuario_id)
+    • ItemRequisitado (id, requisicao_id, item_id, qt_req, qt_dev)
+Modelo ER
+Relacionamentos:
+    • Um Usuario pode fazer várias Requisicoes
+    • Cada Requisicao pode conter vários ItemRequisitado
+    • Cada ItemRequisitado está vinculado a um Item
+Projeto Físico (SQL)
+CREATE TABLE Usuario (
+  id INT PRIMARY KEY,
+  nome VARCHAR(100),
+  funcao VARCHAR(50)
+);
+
+CREATE TABLE Item (
+  id INT PRIMARY KEY,
+  nome VARCHAR(255),
+  tipo VARCHAR(50),
+referencia VARCHAR(100)
+);
+
+CREATE TABLE Requisicao (
+  id INT PRIMARY KEY,
+  data DATE,
+  sala VARCHAR(20),
+  usuario_id INT,
+  FOREIGN KEY (usuario_id) REFERENCES Usuario(id)
+);
+
+CREATE TABLE ItemRequisitado (
+  id INT PRIMARY KEY,
+  requisicao_id INT,
+  item_id INT,
+  qt_req INT,
+  qt_dev INT,
+  FOREIGN KEY (requisicao_id) REFERENCES Requisicao(id),
+  FOREIGN KEY (item_id) REFERENCES Item(id)
+);
