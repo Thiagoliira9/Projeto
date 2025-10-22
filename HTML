@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulário de Dispensa de Itens Avulsos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background-color: #f9f9f9;
+    }
+    h1, h2 {
+      color: #2c3e50;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      text-align: left;
+    }
+    th {
+      background-color: #ecf0f1;
+    }
+    .section {
+      margin-bottom: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Formulário de Dispensa de Itens Avulsos - CC</h1>
+  <p><strong>Hospital:</strong> Alvorada Americas</p>
+
+  <div class="section">
+    <label for="data">Data:</label>
+    <input type="date" id="data" name="data" />
+    <label for="sala">Sala:</label>
+    <input type="text" id="sala" name="sala" />
+  </div>
+
+  <div class="section">
+    <h2>Materiais / Fios</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Qt. Requisitada</th>
+          <th>Qt. Devolvida</th>
+          <th>Item</th>
+          <th>Qt. Requisitada</th>
+          <th>Qt. Devolvida</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Agulha Raqui (27G / 25G / 22G)</td>
+          <td><input type="number" min="0" /></td>
+          <td><input type="number" min="0" /></td>
+          <td>FIO SUT ACIFLEX REF</td>
+          <td><input type="number" min="0" /></td>
+          <td><input type="number" min="0" /></td>
+        </tr>
+        <!-- Adicione mais linhas conforme necessário -->
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>Medicamentos</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Qt. Requisitada</th>
+          <th>Qt. Devolvida</th>
+          <th>Item</th>
+          <th>Qt. Requisitada</th>
+          <th>Qt. Devolvida</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Adrenalina 1mL</td>
+          <td><input type="number" min="0" /></td>
+          <td><input type="number" min="0" /></td>
+          <td>Marcaina SEM VASO</td>
+          <td><input type="number" min="0" /></td>
+          <td><input type="number" min="0" /></td>
+        </tr>
+        <!-- Adicione mais linhas conforme necessário -->
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>Outros Itens</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Qt. Requisitada</th>
+          <th>Qt. Devolvida</th>
+          <th>Item</th>
+          <th>Qt. Requisitada</th>
+          <th>Qt. Devolvida</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>VENTURI</td>
+          <td><input type="number" min="0" /></td>
+          <td><input type="number" min="0" /></td>
+          <td>Extensão de Aspiração 3m</td>
+          <td><input type="number" min="0" /></td>
+          <td><input type="number" min="0" /></td>
+        </tr>
+        <!-- Adicione mais linhas conforme necessário -->
+      </tbody>
+    </table>
+  </div>
+
+  <button type="submit">Enviar Formulário</button>
+
+</body>
+</html>
